@@ -1,0 +1,1 @@
+rootProject.name = "action-build-scan-push-container"
