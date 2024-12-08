@@ -31,7 +31,8 @@ suspend fun main() {
 
         core.group("GitHub Actions runtime token ACs") {
             try {
-                github.printActionsRuntimeTokenACs()
+                println(github)
+                github.GitHub.printActionsRuntimeTokenACs()
             } catch (exception: Exception) {
                 core.warning("We are not happy: $exception")
                 core.warning(exception.message ?: "no message")
