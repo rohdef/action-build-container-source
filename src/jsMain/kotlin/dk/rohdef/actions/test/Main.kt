@@ -22,8 +22,8 @@ suspend fun main() {
     actionsToolkit.run {
         val startedTime = Date()
 
-        val inputs = context.getInputs()
-        core.info("We got inputs: $inputs")
+//        val inputs = context.getInputs()
+//        core.info("We got inputs: $inputs")
 
         core.group("Dofus") {
             core.info("So this is fine")
