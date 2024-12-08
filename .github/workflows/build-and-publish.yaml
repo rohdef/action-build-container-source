@@ -32,7 +32,7 @@ jobs:
           path: action-deploy
           repository: rohdef/action-build-scan-push-container
           ssh-key: ${{ secrets.BUILD_PUSH_SCAN_DEPLOY_SSH_KEY }}
-      - name: Update deployment 
+      - name: Update deployment
         run: |
           rm -rf ./action-deploy/*
           cp -r ./distribution/* ./action-deploy/
