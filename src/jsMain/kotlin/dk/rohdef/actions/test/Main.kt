@@ -1,5 +1,7 @@
 package dk.rohdef.actions.test
 
+import com.docker.actions_toolkit.ActionsToolkit
+import com.docker.actions_toolkit.Context
 import com.github.actions.Core
 import kotlin.js.Date
 
@@ -9,14 +11,18 @@ external val core: Core
 
 @JsModule("@docker/actions-toolkit")
 @JsNonModule
-external val actionsToolkit: dynamic
+external val actionsToolkit: ActionsToolkit
+
+@JsModule("@docker/actions-toolkit/lib/context")
+@JsNonModule
+external val context: Context
 
 
-fun main() {
+suspend fun main() {
     actionsToolkit.run {
         val startedTime = Date()
 
-        val inputs = core.getInputs()
+        val inputs = context.getInputs()
         core.info("We got inputs: $inputs")
 
         core.group("Dofus") {
