@@ -30,8 +30,8 @@ kotlin {
     sourceSets {
         val jsMain by getting {
             dependencies {
-                implementation(npm("@actions/core", "^1.11.1"))
-                implementation(npm("@actions/github", "^6.0.0"))
+                implementation(npm("@actions/core", "^1.11.1", generateExternals = true))
+                implementation(npm("@actions/github", "^6.0.0", generateExternals = true))
             }
         }
     }
