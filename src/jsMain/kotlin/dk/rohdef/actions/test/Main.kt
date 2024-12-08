@@ -17,15 +17,25 @@ external val actionsToolkit: ActionsToolkit
 @JsNonModule
 external val context: Context
 
+@JsModule("@docker/actions-toolkit/lib/github")
+@JsNonModule
+external val github: dynamic
+
 
 suspend fun main() {
     actionsToolkit.run {
         val startedTime = Date()
 
-//        val inputs = context.getInputs()
-//        core.info("We got inputs: $inputs")
+    //        val inputs = context.getInputs()
+    //        core.info("We got inputs: $inputs")
 
-        core.group("Dofus") {
+        core.group("GitHub Actions runtime token ACs") {
+            try {
+                github.printActionsRuntimeTokenACs()
+            } catch (exception: Exception) {
+                core.warning("We are not happy: $exception")
+                core.warning(exception.message ?: "no message")
+            }
             core.info("So this is fine")
         }
 
