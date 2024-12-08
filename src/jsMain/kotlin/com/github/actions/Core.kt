@@ -1,7 +1,12 @@
 package com.github.actions
 
+import kotlin.js.Json
+
 external class Core {
     fun getInput(name: String): Any
+    fun getInputs(): Json
+
+    fun group(name: String, contents: suspend () -> Unit)
 
     fun setFailed(message: String): Any
 
