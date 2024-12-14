@@ -30,8 +30,9 @@ kotlin {
     sourceSets {
         val jsMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
                 implementation(npm("@actions/core", "^1.11.1"))
-                implementation(npm("@docker/actions-toolkit", "^0.46.0"))
+                implementation(npm("@docker/actions-toolkit", "^0.47.0"))
             }
         }
     }

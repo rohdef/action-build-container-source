@@ -1,15 +1,17 @@
 package com.github.actions
 
+import kotlin.js.Promise
+
 external class Core {
-    fun getInput(name: String): Any
+    fun getInput(name: String): String
 
-    suspend fun group(name: String, contents: suspend () -> Unit)
+    fun <T> group(name: String, block: () -> Promise<T>): Promise<T>
 
-    fun setFailed(message: String): Any
+    fun setFailed(message: String)
 
-    fun debug(message: String?): Any
-    fun notice(message: String?): Any
-    fun info(message: String?): Any
-    fun warning(message: String?): Any
-    fun error(message: String?): Any
+    fun debug(message: String)
+    fun notice(message: String)
+    fun info(message: String)
+    fun warning(message: String)
+    fun error(message: String)
 }
