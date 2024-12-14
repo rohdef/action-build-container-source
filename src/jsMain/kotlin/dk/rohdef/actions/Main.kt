@@ -6,11 +6,6 @@ import com.docker.actions_toolkit.lib.toolkit.Toolkit
 import dk.rohdef.actions.dk.rohdef.actions.github.Core
 import kotlinx.coroutines.await
 import kotlin.js.Date
-import com.github.actions.Core as RawCore
-
-@JsModule("@actions/core")
-@JsNonModule
-external val rawCore: RawCore
 
 suspend fun Core.actionInfo() {
     group("GitHub Actions runtime token ACs") {
@@ -34,7 +29,7 @@ suspend fun Core.actionInfo() {
 suspend fun main() {
     val toolkit = Toolkit()
 
-    Core(rawCore).run(
+    Core().run(
         {
             val startedTime = Date()
 

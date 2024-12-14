@@ -12,7 +12,7 @@ import com.github.actions.Core as RawCore
 external val actionsToolkit: ActionsToolkit
 
 @OptIn(DelicateCoroutinesApi::class)
-class Core internal constructor(val rawCore: RawCore) {
+class Core internal constructor() {
     suspend fun run(
         main: suspend Core.() -> Unit,
         post: (suspend Core.() -> Unit)? = null,
@@ -24,19 +24,19 @@ class Core internal constructor(val rawCore: RawCore) {
         )
     }
 
-    fun getInput(name: String): String =     rawCore.getInput(name)
+    fun getInput(name: String): String = RawCore.getInput(name)
 
     suspend fun group(name: String, contents: suspend Core.() -> Unit) {
-        rawCore.group(name) {
+        RawCore.group(name) {
             GlobalScope.promise { contents() }
         }.await()
     }
 
-    fun setFailed(message: String) = rawCore.setFailed(message)
+    fun setFailed(message: String) = RawCore.setFailed(message)
 
-    fun debug(message: String) = rawCore.debug(message)
-    fun notice(message: String) = rawCore.notice(message)
-    fun info(message: String) = rawCore.info(message)
-    fun warning(message: String) = rawCore.warning(message)
-    fun error(message: String) = rawCore.error(message)
+    fun debug(message: String) = RawCore.debug(message)
+    fun notice(message: String) = RawCore.notice(message)
+    fun info(message: String) = RawCore.info(message)
+    fun warning(message: String) = RawCore.warning(message)
+    fun error(message: String) = RawCore.error(message)
 }

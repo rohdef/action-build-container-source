@@ -2,7 +2,9 @@ package com.github.actions
 
 import kotlin.js.Promise
 
-external class Core {
+@JsModule("@actions/core")
+@JsNonModule
+external object Core {
     fun getInput(name: String): String
 
     fun <T> group(name: String, block: () -> Promise<T>): Promise<T>
