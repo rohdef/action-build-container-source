@@ -24,7 +24,7 @@ class Core internal constructor() {
         )
     }
 
-    fun getInput(name: String): String = RawCore.getInput(name)
+    val inputs = Inputs.fromInput(RawCore::getInput)
 
     suspend fun group(name: String, contents: suspend Core.() -> Unit) {
         RawCore.group(name) {

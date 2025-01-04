@@ -2,6 +2,47 @@ name: Build container
 description: ""
 
 inputs:
+  add-hosts:
+    description: "List (new line for each entry) of a customs host-to-IP mapping (e.g., docker:10.180.0.1)"
+    required: false
+  annotations:
+    description: "List (new line for each entry) of annotation to set to the image"
+    required: false
+  build-args:
+    description: "List of build-time variables"
+    required: false
+  context:
+    description: "Build's context is the set of files located in the specified PATH or URL"
+    required: false
+  docker-file:
+    description: "Path to the Dockerfile"
+    required: false
+  labels:
+    description: "List (new line for each entry) of metadata for an image"
+    required: false
+  secrets:
+    description: "List (new line for each entry) of secrets to expose to the build (e.g., key=string, GIT_AUTH_TOKEN=mytoken)"
+    required: false
+  secret-envs:
+    description: "List of secret env vars to expose to the build (e.g., key=envname, MY_SECRET=MY_ENV_VAR)"
+    required: false
+  secret-files:
+    description: "List of secret files to expose to the build (e.g., key=filename, MY_SECRET=./secret.txt)"
+    required: false
+  ssh:
+    description: "List of SSH agent socket or keys to expose to the build"
+    required: false
+  tags:
+    description: "List of tags"
+    required: false
+  target:
+    description: "Sets the target stage to build"
+    required: false
+  github-token:
+    description: "GitHub Token used to authenticate against a repository for Git context"
+    default: ${{ github.token }}
+    required: false
+
   input-path:
     description: Path to build docker image from
     default: "."
@@ -21,6 +62,13 @@ inputs:
 
 
 outputs:
+  imageid:
+    description: 'Image ID'
+  digest:
+    description: 'Image digest'
+  metadata:
+    description: 'Build result metadata'
+
   container-image:
     description: The random image name used for generation
     value: ${{ steps.build-image.outputs.container-image }}
@@ -31,6 +79,7 @@ outputs:
 runs:
   using: node20
   main: index.js
+#  post: index.js
 #  using: composite
 #  steps:
 #    - name: Build image

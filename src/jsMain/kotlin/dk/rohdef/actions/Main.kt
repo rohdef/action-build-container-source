@@ -26,8 +26,15 @@ suspend fun Core.actionInfo() {
         }
     }
 
-    group("Buildx version") {
+    group("Builder info") {
         toolkit.buildx.printVersion().await()
+
+        val minimumSupportedVersion = "0.12.0"
+        val versionSupported = toolkit.buildx.versionSatisfies(">=$minimumSupportedVersion").await()
+        if (!versionSupported) {
+            error("Buildx version is not supported, minimum supported version is: $minimumSupportedVersion")
+            setFailed("Buildx version is not supported, minimum supported version is: $minimumSupportedVersion")
+        }
     }
 }
 
@@ -42,6 +49,28 @@ suspend fun main() {
             }
 
             actionInfo()
+
+            // getArgs
+//            val context = inputs.context.value
+            // [
+
+//            "build",
+//            inputs.addHosts.value.map { "--add-host" }.zip(inputs.addHosts.value),
+//            inputs.annotations.value.map { "--annotation" }.zip(inputs.annotations.value)
+//            inputs.secrets.value.map { "--secret" }.zip(inputs.secrets.value.map { "id=${it.key},env=${it.value}" })
+//            inputs.dockerFile.value.let {
+//                if (it.isNotBlank()) {
+//                    listOf("--file", it)
+//                } else {
+//                    emptyList()
+//                }
+//            }
+//            inputs.labels.value.map { "--label" }.zip(inputs.labels.value)
+//              ...buildArgs,   
+
+            //   ...common,
+            //   context,
+            // ]
 
             setFailed("We just fail right now")
         },

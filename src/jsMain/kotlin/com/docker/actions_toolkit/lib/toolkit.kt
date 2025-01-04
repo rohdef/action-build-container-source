@@ -12,4 +12,6 @@ external object Buildx {
     fun isAvailable(): Promise<Boolean>
 
     fun printVersion(): Promise<Unit>
+
+    fun versionSatisfies(range: String): Promise<Boolean>
 }
