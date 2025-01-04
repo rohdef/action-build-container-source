@@ -1,3 +1,3 @@
-# Action for building, scanning and pushing containers
+# Action for building, containers
 
-See [source](https://github.com/rohdef/action-build-scan-push-container-source) for source code
+See [source](https://github.com/rohdef/action-build-container-source) for source code

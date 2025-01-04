@@ -1,1 +1,1 @@
-rootProject.name = "action-build-scan-push-container"
+rootProject.name = "action-build-container"

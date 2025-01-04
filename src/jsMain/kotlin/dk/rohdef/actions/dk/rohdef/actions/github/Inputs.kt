@@ -1,25 +1,11 @@
 package dk.rohdef.actions.dk.rohdef.actions.github
 
-import com.docker.actions_toolkit.lib.context.Context as ToolkitContext
-
 data class Inputs(
-    val addHosts: AddHosts,
     val annotations: Annotations,
-    val context: Context,
-    val dockerFile: DockerFile,
+    val dockerfilePath: DockerfilePath,
     val labels: Labels,
     val secrets: Secrets,
 ) {
-    value class AddHosts private constructor(
-        val value: List<String>,
-    ) {
-        companion object {
-            fun fromValue(value: String): AddHosts {
-                return AddHosts(value.toInputList())
-            }
-        }
-    }
-
     value class Annotations private constructor(
         val value: List<String>,
     ) {
@@ -30,26 +16,12 @@ data class Inputs(
         }
     }
 
-    value class Context private constructor(
-        /**
-         * Defaults to the git context if blank
-         */
+    value class DockerfilePath private constructor(
         val value: String,
     ) {
         companion object {
-            fun fromValue(value: String) : Context {
-                return Context(value.ifBlank { ToolkitContext.gitContext() })
-
-            }
-        }
-    }
-
-    value class DockerFile private constructor(
-        val value: String,
-    ) {
-        companion object {
-            fun fromValue(value: String) : DockerFile {
-                return DockerFile(value)
+            fun fromValue(value: String) : DockerfilePath {
+                return DockerfilePath(value)
             }
         }
     }
@@ -98,10 +70,8 @@ data class Inputs(
 
         fun fromInput(getInput: (String) -> String): Inputs {
             return Inputs(
-                AddHosts.fromValue(getInput(InputNames.addHosts)),
                 Annotations.fromValue(getInput(InputNames.annotations)),
-                Context.fromValue(getInput(InputNames.context)),
-                DockerFile.fromValue(getInput(InputNames.dockerFile)),
+                DockerfilePath.fromValue(getInput(InputNames.dockerFile)),
                 Labels.fromValue(getInput(InputNames.labels)),
                 Secrets.fromValue(getInput(InputNames.secrets)),
             )
@@ -110,10 +80,8 @@ data class Inputs(
 }
 
 object InputNames {
-    val addHosts = "add-hosts"
     val annotations = "annotations"
-    val context = "context"
-    val dockerFile = "docker-file"
+    val dockerFile = "dockerfile-path"
     val labels = "labels"
     val secrets = "secrets"
 }

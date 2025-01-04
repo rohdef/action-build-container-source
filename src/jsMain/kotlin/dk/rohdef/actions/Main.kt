@@ -6,8 +6,9 @@ import com.docker.actions_toolkit.lib.toolkit.Toolkit
 import dk.rohdef.actions.dk.rohdef.actions.github.Core
 import kotlinx.coroutines.await
 import kotlin.js.Date
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-val toolkit = Toolkit()
 suspend fun Core.actionInfo() {
     group("GitHub Actions runtime token ACs") {
         try {
@@ -25,30 +26,20 @@ suspend fun Core.actionInfo() {
             info(exception.message ?: "Could not get docker information")
         }
     }
-
-    group("Builder info") {
-        toolkit.buildx.printVersion().await()
-
-        val minimumSupportedVersion = "0.12.0"
-        val versionSupported = toolkit.buildx.versionSatisfies(">=$minimumSupportedVersion").await()
-        if (!versionSupported) {
-            error("Buildx version is not supported, minimum supported version is: $minimumSupportedVersion")
-            setFailed("Buildx version is not supported, minimum supported version is: $minimumSupportedVersion")
-        }
-    }
 }
 
+@OptIn(ExperimentalUuidApi::class)
 suspend fun main() {
     Core().run(
         {
             val startedTime = Date()
 
-            val buildxAvailable = toolkit.buildx.isAvailable().await()
-            if (!buildxAvailable) {
-                throw Exception("Docker buildx not found, cannot proceed")
-            }
-
             actionInfo()
+
+                val imageName = Uuid.random()
+            listOf("--tag", imageName.toString())
+            inputs.labels.value.map { "--label" }.zip(inputs.labels.value)
+
 
             // getArgs
 //            val context = inputs.context.value
@@ -66,7 +57,7 @@ suspend fun main() {
 //                }
 //            }
 //            inputs.labels.value.map { "--label" }.zip(inputs.labels.value)
-//              ...buildArgs,   
+//              ...buildArgs,
 
             //   ...common,
             //   context,

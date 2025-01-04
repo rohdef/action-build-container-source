@@ -2,19 +2,13 @@ name: Build container
 description: ""
 
 inputs:
-  add-hosts:
-    description: "List (new line for each entry) of a customs host-to-IP mapping (e.g., docker:10.180.0.1)"
-    required: false
   annotations:
     description: "List (new line for each entry) of annotation to set to the image"
     required: false
   build-args:
     description: "List of build-time variables"
     required: false
-  context:
-    description: "Build's context is the set of files located in the specified PATH or URL"
-    required: false
-  docker-file:
+  dockerfile-path:
     description: "Path to the Dockerfile"
     required: false
   labels:
@@ -23,30 +17,10 @@ inputs:
   secrets:
     description: "List (new line for each entry) of secrets to expose to the build (e.g., key=string, GIT_AUTH_TOKEN=mytoken)"
     required: false
-  secret-envs:
-    description: "List of secret env vars to expose to the build (e.g., key=envname, MY_SECRET=MY_ENV_VAR)"
-    required: false
-  secret-files:
-    description: "List of secret files to expose to the build (e.g., key=filename, MY_SECRET=./secret.txt)"
-    required: false
-  ssh:
-    description: "List of SSH agent socket or keys to expose to the build"
-    required: false
   tags:
     description: "List of tags"
     required: false
-  target:
-    description: "Sets the target stage to build"
-    required: false
-  github-token:
-    description: "GitHub Token used to authenticate against a repository for Git context"
-    default: ${{ github.token }}
-    required: false
 
-  input-path:
-    description: Path to build docker image from
-    default: "."
-    required: true
   image-destination-host:
     description: "Where to upload the artifact to - if only local is desired just use \"localhost:5000\" - trailing slash is not allowed"
     default: ghcr.io
@@ -79,53 +53,3 @@ outputs:
 runs:
   using: node20
   main: index.js
-#  post: index.js
-#  using: composite
-#  steps:
-#    - name: Build image
-#      id: build-image
-#      shell: bash
-#      run: |
-#        IMAGE_NAME=$(uuidgen)
-#
-#        docker build \
-#          --tag "$IMAGE_NAME" \
-#          --label "runnumber=${GITHUB_RUN_ID}" \
-#          "${{ inputs.input-path }}"
-#
-#        echo "container-image=$(echo ${IMAGE_NAME})" >> "$GITHUB_OUTPUT"
-#
-#    - name: Scan container for vulnerabilities
-#      uses: aquasecurity/trivy-action@0.28.0
-#      with:
-#        image-ref: ${{ steps.build-image.outputs.container-image }}
-#        format: "table"
-#        exit-code: "1"
-#      env:
-#        TRIVY_SKIP_DB_UPDATE: true
-#        TRIVY_SKIP_JAVA_DB_UPDATE: true
-#
-#    - name: Push image
-#      id: push-image
-#      shell: bash
-#      run: |
-#        # This changes all uppercase characters to lowercase.
-#        IMAGE_ID=$(echo "${{ inputs.image-destination-host }}/${{ inputs.image-destination-name }}" | tr '[A-Z]' '[a-z]')
-#
-#        # This strips the git ref prefix from the version.
-#        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-#        # This strips the "v" prefix from the tag name.
-#        [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-#        # This uses the Docker `latest` tag convention.
-#        [ "$VERSION" == "main" ] && VERSION=latest
-#
-#        echo "Pushing image to"
-#        echo "$IMAGE_ID:$VERSION"
-#
-#        docker tag \
-#          "${{ steps.build-image.outputs.container-image }}" \
-#          "$IMAGE_ID:$VERSION"
-#        docker push "$IMAGE_ID:$VERSION"
-#
-#        IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' "$IMAGE_ID:$VERSION")
-#        echo "image-digest=$(echo ${IMAGE_DIGEST})" >> "$GITHUB_OUTPUT"

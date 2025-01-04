@@ -30,8 +30,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: action-deploy
-          repository: rohdef/action-build-scan-push-container
-          ssh-key: ${{ secrets.BUILD_PUSH_SCAN_DEPLOY_SSH_KEY }}
+          repository: rohdef/action-build-container
+          ssh-key: ${{ secrets.BUILD_SSH_KEY }}
       - name: Update deployment
         run: |
           rm -rf ./action-deploy/*
