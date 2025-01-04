@@ -4,10 +4,12 @@ package com.docker.actions_toolkit.lib.toolkit
 
 import kotlin.js.Promise
 
-external class Toolkit {
+external class  Toolkit {
     val buildx: Buildx
 }
 
 external object Buildx {
     fun isAvailable(): Promise<Boolean>
+
+    fun printVersion(): Promise<Unit>
 }

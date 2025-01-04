@@ -7,6 +7,7 @@ import dk.rohdef.actions.dk.rohdef.actions.github.Core
 import kotlinx.coroutines.await
 import kotlin.js.Date
 
+val toolkit = Toolkit()
 suspend fun Core.actionInfo() {
     group("GitHub Actions runtime token ACs") {
         try {
@@ -24,11 +25,13 @@ suspend fun Core.actionInfo() {
             info(exception.message ?: "Could not get docker information")
         }
     }
+
+    group("Buildx version") {
+        toolkit.buildx.printVersion().await()
+    }
 }
 
 suspend fun main() {
-    val toolkit = Toolkit()
-
     Core().run(
         {
             val startedTime = Date()
