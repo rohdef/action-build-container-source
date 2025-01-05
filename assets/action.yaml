@@ -21,18 +21,6 @@ inputs:
     description: "List of tags"
     required: false
 
-  image-destination-host:
-    description: "Where to upload the artifact to - if only local is desired just use \"localhost:5000\" - trailing slash is not allowed"
-    default: ghcr.io
-    required: true
-  image-destination-name:
-    description: "The desired name of the output artifact, defaults to: \"owner/repository\""
-    default: "${{ github.repository }}"
-    required: false
-#  image-destination-tag-override:
-#    description: "If the default tag generation is to be overridden"
-#    default: ""
-#    required: false
 
 
 outputs:

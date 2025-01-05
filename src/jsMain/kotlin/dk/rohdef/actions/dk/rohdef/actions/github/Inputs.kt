@@ -27,11 +27,21 @@ data class Inputs(
     }
 
     value class Labels private constructor(
-        val value: List<String>,
+        val value: Map<String, String>,
     ) {
         companion object {
             fun fromValue(value: String): Labels {
-                return Labels(value.toInputList())
+                val inputList = value.toInputList()
+
+                if (!inputList.all { it.contains("=") }) {
+                    throw IllegalArgumentException("All labels must be key-value-pairs separated by '=', a value was found that does not follow this")
+                }
+
+                val labels = inputList
+                    .map { it.split("=") }
+                    .associate { it[0].trim() to it[1] }
+
+                return Labels(labels)
             }
         }
     }

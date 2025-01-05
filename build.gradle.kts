@@ -30,7 +30,10 @@ kotlin {
     sourceSets {
         val jsMain by getting {
             dependencies {
+                implementation  ("org.jetbrains.kotlin-wrappers:kotlin-node:20.14.10-pre.804")
+
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+
                 implementation(npm("@actions/core", "^1.11.1"))
                 implementation(npm("@docker/actions-toolkit", "^0.47.0"))
             }

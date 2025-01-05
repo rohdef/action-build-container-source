@@ -5,6 +5,7 @@ import com.docker.actions_toolkit.lib.github.GitHub
 import com.docker.actions_toolkit.lib.toolkit.Toolkit
 import dk.rohdef.actions.dk.rohdef.actions.github.Core
 import kotlinx.coroutines.await
+import node.process.process
 import kotlin.js.Date
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -37,10 +38,12 @@ suspend fun main() {
             val imageName = Uuid.random()
             setOutput("imageid", "action: ${imageName       }")
 //            listOf("--tag", imageName.toString())
-//            inputs.labels.value.map { "--label" }.zip(inputs.labels.value)
 
+            val labels = mapOf("runnumber" to "") + inputs.labels.value
+            info("lbls: $labels")
 
-
+            val runId = process.env["GITHUB_RUN_ID"]
+            info("Running $runId")
 
 
             // getArgs
