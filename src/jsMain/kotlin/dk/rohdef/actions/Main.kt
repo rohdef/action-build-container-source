@@ -33,16 +33,15 @@ suspend fun Core.actionInfo() {
 suspend fun main() {
     Core().run(
         {
-            actionInfo()
+//            actionInfo()
 
             val imageName = Uuid.random()
-            setOutput("imageid", "action: ${imageName       }")
+            setOutput("imageid", "action: ${imageName}")
 //            listOf("--tag", imageName.toString())
 
-            val labels = mapOf("runnumber" to "") + inputs.labels.value
+            val runId = process.env["GITHUB_RUN_ID"] ?: throw IllegalArgumentException("GITHUB_RUN_ID env variable is not set")
+            val labels = mapOf("runnumber" to runId) + inputs.labels.value
             info("lbls: $labels")
-
-            val runId = process.env["GITHUB_RUN_ID"]
             info("Running $runId")
 
 

@@ -25,6 +25,7 @@ kotlin {
 
         binaries.executable()
         generateTypeScriptDefinitions()
+        useEsModules()
     }
 
     sourceSets {

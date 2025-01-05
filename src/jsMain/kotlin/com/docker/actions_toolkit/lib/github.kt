@@ -1,4 +1,4 @@
-@file:JsModule("@docker/actions-toolkit/lib/github")
+@file:JsModule("@docker/actions-toolkit/lib/github.js")
 @file:JsNonModule
 package com.docker.actions_toolkit.lib.github
 

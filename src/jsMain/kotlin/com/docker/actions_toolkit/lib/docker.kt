@@ -1,4 +1,4 @@
-@file:JsModule("@docker/actions-toolkit/lib/docker/docker")
+@file:JsModule("@docker/actions-toolkit/lib/docker/docker.js")
 @file:JsNonModule
 
 package com.docker.actions_toolkit.lib.docker
