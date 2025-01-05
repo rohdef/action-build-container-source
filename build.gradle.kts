@@ -25,6 +25,7 @@ kotlin {
 
         binaries.executable()
         generateTypeScriptDefinitions()
+        useCommonJs()
         useEsModules()
     }
 
