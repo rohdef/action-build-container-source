@@ -9,6 +9,7 @@ external object Core {
 
     fun <T> group(name: String, block: () -> Promise<T>): Promise<T>
 
+    fun setOutput(name: String, value: Any)
     fun setFailed(message: String)
 
     fun debug(message: String)

@@ -32,13 +32,15 @@ suspend fun Core.actionInfo() {
 suspend fun main() {
     Core().run(
         {
-            val startedTime = Date()
-
             actionInfo()
 
-                val imageName = Uuid.random()
-            listOf("--tag", imageName.toString())
-            inputs.labels.value.map { "--label" }.zip(inputs.labels.value)
+            val imageName = Uuid.random()
+            setOutput("imageid", "action: ${imageName       }")
+//            listOf("--tag", imageName.toString())
+//            inputs.labels.value.map { "--label" }.zip(inputs.labels.value)
+
+
+
 
 
             // getArgs
@@ -63,7 +65,7 @@ suspend fun main() {
             //   context,
             // ]
 
-            setFailed("We just fail right now")
+//            setFailed("We just fail right now")
         },
     )
 }

@@ -32,6 +32,8 @@ class Core internal constructor() {
         }.await()
     }
 
+    fun setOutput(name: String, value: String) = RawCore.setOutput(name, value)
+
     fun setFailed(message: String) = RawCore.setFailed(message)
 
     fun debug(message: String) = RawCore.debug(message)

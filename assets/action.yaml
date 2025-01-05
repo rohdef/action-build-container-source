@@ -38,17 +38,17 @@ inputs:
 outputs:
   imageid:
     description: 'Image ID'
-  digest:
-    description: 'Image digest'
-  metadata:
-    description: 'Build result metadata'
-
-  container-image:
-    description: The random image name used for generation
-    value: ${{ steps.build-image.outputs.container-image }}
-  image-digest:
-    description: The digest of the final image
-    value: ${{ steps.push-image.outputs.image-digest }}
+#  digest:
+#    description: 'Image digest'
+#  metadata:
+#    description: 'Build result metadata'
+#
+#  container-image:
+#    description: The random image name used for generation
+#    value: ${{ steps.build-image.outputs.container-image }}
+#  image-digest:
+#    description: The digest of the final image
+#    value: ${{ steps.push-image.outputs.image-digest }}
 
 runs:
   using: node20
