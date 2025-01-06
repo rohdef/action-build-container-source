@@ -4,7 +4,7 @@ package node
 
 import kotlin.js.collections.JsMap
 
-external val process: Process
+external val processx: Process
 
 @OptIn(ExperimentalJsCollectionsApi::class)
 external object Process {
