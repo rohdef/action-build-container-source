@@ -2,11 +2,10 @@ package dk.rohdef.actions
 
 import com.docker.actions_toolkit.lib.docker.Docker
 import com.docker.actions_toolkit.lib.github.GitHub
-import com.docker.actions_toolkit.lib.toolkit.Toolkit
 import dk.rohdef.actions.dk.rohdef.actions.github.Core
 import kotlinx.coroutines.await
-import node.process.process
-import kotlin.js.Date
+import node.process
+import kotlin.js.collections.toMap
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -29,7 +28,7 @@ suspend fun Core.actionInfo() {
     }
 }
 
-@OptIn(ExperimentalUuidApi::class)
+@OptIn(ExperimentalUuidApi::class, ExperimentalJsCollectionsApi::class)
 suspend fun main() {
     Core().run(
         {
@@ -39,7 +38,9 @@ suspend fun main() {
             setOutput("imageid", "action: ${imageName}")
 //            listOf("--tag", imageName.toString())
 
-            val runId = process.env["GITHUB_RUN_ID"] ?: throw IllegalArgumentException("GITHUB_RUN_ID env variable is not set")
+            // TODO rohdef - find a way to wrap the map
+            val environment = process.env.toMap()
+            val runId = environment["GITHUB_RUN_ID"] ?: throw IllegalArgumentException("GITHUB_RUN_ID env variable is not set")
             val labels = mapOf("runnumber" to runId) + inputs.labels.value
             info("lbls: $labels")
             info("Running $runId")
