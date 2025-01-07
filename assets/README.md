@@ -2,22 +2,22 @@
 
 See [source](https://github.com/rohdef/action-build-container-source) for source code
 
-## Labels
+## Annotations
 
-OCI recommends a set of [default labels](https://github.com/opencontainers/image-spec/blob/main/annotations.md)
+OCI recommends a set of [default annotation](https://github.com/opencontainers/image-spec/blob/main/annotations.md)
 where this action inserts reasonable default values when possible.
 Please make sure to set the rest/customize what is needed for your needs.
 
 ```yaml
 with:
-  labels: |
-    org.opencontainers.image.authors=Fiktivus Maximus (maximus@dummy-email)
-    org.opencontainers.image.url=https://project-domain.com
-    org.opencontainers.image.documentation=https://project-domain.com/documentation
-    org.opencontainers.image.vendor=Super Organization Inc
-    org.opencontainers.image.ref.name=3.1-super-project
-    org.opencontainers.image.title=The Super Prject
-    org.opencontainers.image.description=This project does super things
+  annotations: |
+            org.opencontainers.image.authors=Fiktivus Maximus (maximus@dummy-email)
+            org.opencontainers.image.url=https://project-domain.com
+            org.opencontainers.image.documentation=https://project-domain.com/documentation
+            org.opencontainers.image.vendor=Super Organization Inc
+            org.opencontainers.image.ref.name=3.1-super-project
+            org.opencontainers.image.title=The Super Prject
+            org.opencontainers.image.description=This project does super things
 ```
 
 | label                                  | description                                  | default value                         | should be set |
@@ -35,3 +35,5 @@ with:
 | org.opencontainers.image.title         | Human-readable title                         |                                       | Yes           |
 | org.opencontainers.image.description   | Human-readable description                   |                                       | Yes           |
 
+
+## Labels

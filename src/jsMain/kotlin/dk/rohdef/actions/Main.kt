@@ -63,8 +63,9 @@ suspend fun main() {
             val actionEnvironment = ActionEnvironment(process)
 
             val date = Date().toISOString()
-            val defaultLabels = mapOf(
-                "runnumber" to actionEnvironment.runId,
+            val defaultAnnotation = mapOf(
+                "dk.rohdef.actions.runnumber" to actionEnvironment.runId,
+                "dk.rohdef.actions.builder" to "rohdef build container action",
                 "org.opencontainers.image.created" to date,
                 "org.opencontainers.image.authors" to actionEnvironment.actor,
                 "org.opencontainers.image.url" to actionEnvironment.projectUrl,
@@ -78,31 +79,23 @@ suspend fun main() {
                 "org.opencontainers.image.title" to "not specified",
                 "org.opencontainers.image.description" to "not specified",
             )
-            val labels = defaultLabels + inputs.labels.value
-            info("lbls: $labels")
+            val annotations = defaultAnnotation + inputs.annotations.value
+            info("annotations: $annotations")
+            info("labels: ${inputs.labels.value}")
 
+            val annotationBuildCommand = annotations.map { "    --annotation ${it.key}=${it.value} \\" }.joinToString("\n")
+            println("docker build \\\n$annotationBuildCommand")
+            val buildArgsCommand = inputs.buildArgs.value.map { "    --build-arg ${it.key}=${it.value} \\" }.joinToString("\n")
 
-            // getArgs
-//            val context = inputs.context.value
-            // [
+            val commandRaw = """
+                |docker build \
+                |$annotationBuildCommand
+                |$buildArgsCommand
+                |    ${inputs.dockerfilePath.value}
+            """.trimMargin( )
+            val command = commandRaw.lines().filter { it.isNotBlank() }.joinToString("\n")
 
-//            "build",
-//            inputs.addHosts.value.map { "--add-host" }.zip(inputs.addHosts.value),
-//            inputs.annotations.value.map { "--annotation" }.zip(inputs.annotations.value)
-//            inputs.secrets.value.map { "--secret" }.zip(inputs.secrets.value.map { "id=${it.key},env=${it.value}" })
-//            inputs.dockerFile.value.let {
-//                if (it.isNotBlank()) {
-//                    listOf("--file", it)
-//                } else {
-//                    emptyList()
-//                }
-//            }
-//            inputs.labels.value.map { "--label" }.zip(inputs.labels.value)
-//              ...buildArgs,
-
-            //   ...common,
-            //   context,
-            // ]
+            info("Running the following docker build command:\n$command")
 
 //            setFailed("We just fail right now")
         },

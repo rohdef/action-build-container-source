@@ -2,16 +2,46 @@ package dk.rohdef.actions.dk.rohdef.actions.github
 
 data class Inputs(
     val annotations: Annotations,
+    val buildArgs: BuildArgs,
     val dockerfilePath: DockerfilePath,
     val labels: Labels,
-    val secrets: Secrets,
 ) {
     value class Annotations private constructor(
-        val value: List<String>,
+        val value: Map<String, String>,
     ) {
         companion object {
             fun fromValue(value: String): Annotations {
-                return Annotations(value.toInputList())
+                val inputList = value.toInputList()
+
+                if (!inputList.all { it.contains("=") }) {
+                    throw IllegalArgumentException("All annotations must be key-value-pairs separated by '=', a value was found that does not follow this")
+                }
+
+                val annotations = inputList
+                    .map { it.split("=") }
+                    .associate { it[0].trim() to it[1] }
+
+                return Annotations(annotations)
+            }
+        }
+    }
+
+    value class BuildArgs private constructor(
+        val value: Map<String, String>,
+    ) {
+        companion object {
+            fun fromValue(value: String): BuildArgs {
+                val inputList = value.toInputList()
+
+                if (!inputList.all { it.contains("=") }) {
+                    throw IllegalArgumentException("All build args must be key-value-pairs separated by '=', a value was found that does not follow this")
+                }
+
+                val buildArgs = inputList
+                    .map { it.split("=") }
+                    .associate { it[0].trim() to it[1] }
+
+                return BuildArgs(buildArgs)
             }
         }
     }
@@ -46,31 +76,6 @@ data class Inputs(
         }
     }
 
-    value class Secrets private constructor(
-        val value: Map<String, String>,
-    ) {
-        override fun toString(): String {
-            return value.keys.toString()
-        }
-
-        companion object {
-            fun fromValue(value: String): Secrets {
-                val inputList = value
-                    .toInputList()
-
-                if (!inputList.all { it.contains("=") }) {
-                    throw IllegalArgumentException("All secrets must be key-value-pairs separated by '=', a value was found that does not follow this")
-                }
-
-                val secrets = inputList
-                    .map { it.split("=") }
-                    .associate { it[0].trim() to it[1] }
-
-                return Secrets(secrets)
-            }
-        }
-    }
-
     companion object {
         fun String.toInputList(): List<String> {
             return lines()
@@ -81,9 +86,9 @@ data class Inputs(
         fun fromInput(getInput: (String) -> String): Inputs {
             return Inputs(
                 Annotations.fromValue(getInput(InputNames.annotations)),
+                BuildArgs.fromValue(getInput(InputNames.buildArgs)),
                 DockerfilePath.fromValue(getInput(InputNames.dockerFile)),
                 Labels.fromValue(getInput(InputNames.labels)),
-                Secrets.fromValue(getInput(InputNames.secrets)),
             )
         }
     }
@@ -93,5 +98,5 @@ object InputNames {
     val annotations = "annotations"
     val dockerFile = "dockerfile-path"
     val labels = "labels"
-    val secrets = "secrets"
+    val buildArgs = "build-args"
 }

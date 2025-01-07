@@ -14,9 +14,6 @@ inputs:
   labels:
     description: "List (new line for each entry) of metadata for an image"
     required: false
-  secrets:
-    description: "List (new line for each entry) of secrets to expose to the build (e.g., key=string, GIT_AUTH_TOKEN=mytoken)"
-    required: false
   tags:
     description: "List of tags"
     required: false
