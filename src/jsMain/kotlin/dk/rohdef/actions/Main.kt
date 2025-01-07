@@ -54,11 +54,10 @@ class ActionEnvironment(
 suspend fun main() {
     Core().run(
         {
-//            actionInfo()
+            actionInfo()
 
             val imageName = Uuid.random()
             setOutput("imageid", "action: ${imageName}")
-//            listOf("--tag", imageName.toString())
 
             val actionEnvironment = ActionEnvironment(process)
 
@@ -88,6 +87,7 @@ suspend fun main() {
                 |docker build \
                 |$annotationBuildCommand
                 |$buildArgsCommand
+                |    --tag $imageName \
                 |    ${inputs.dockerfilePath.value}
             """.trimMargin( )
             val command = commandRaw.lines().filter { it.isNotBlank() }.joinToString("\n")
