@@ -10,7 +10,8 @@ inputs:
     required: false
   dockerfile-path:
     description: "Path to the Dockerfile"
-    required: false
+    default: "."
+    required: true
   labels:
     description: "List (new line for each entry) of metadata for an image"
     required: false

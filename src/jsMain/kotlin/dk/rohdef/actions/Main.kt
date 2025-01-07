@@ -80,11 +80,8 @@ suspend fun main() {
                 "org.opencontainers.image.description" to "not specified",
             )
             val annotations = defaultAnnotation + inputs.annotations.value
-            info("annotations: $annotations")
-            info("labels: ${inputs.labels.value}")
 
             val annotationBuildCommand = annotations.map { "    --annotation ${it.key}=${it.value} \\" }.joinToString("\n")
-            println("docker build \\\n$annotationBuildCommand")
             val buildArgsCommand = inputs.buildArgs.value.map { "    --build-arg ${it.key}=${it.value} \\" }.joinToString("\n")
 
             val commandRaw = """
