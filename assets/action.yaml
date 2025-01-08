@@ -24,8 +24,8 @@ inputs:
 outputs:
   imageid:
     description: 'Image ID'
-#  digest:
-#    description: 'Image digest'
+  digest:
+    description: Image digest for usage in helm charts or other deployments where it is desired to lock the version to this build
 #  metadata:
 #    description: 'Build result metadata'
 #

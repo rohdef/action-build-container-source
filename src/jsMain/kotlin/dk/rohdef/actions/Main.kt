@@ -101,7 +101,8 @@ suspend fun main() {
             when (imageDigestOutput.exitCode) {
                 0 -> {
                     val digest = imageDigestOutput.stdout
-                    info("Digest:                       [$digest]")
+                    info("Digest: [$digest]")
+                    setOutput("digest", digest)
                 }
                 else -> setFailed("Could not get docker image digest")
             }
