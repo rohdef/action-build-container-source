@@ -97,7 +97,7 @@ suspend fun main() {
                 else -> setFailed("Could not build docker container")
             }
 
-            val imageDigestOutput = Exec.getExecOutput("docker", arrayOf("--format", "{{index .RepoDigests 0}}", imageName.toString())).await()
+            val imageDigestOutput = Exec.getExecOutput("docker", arrayOf("inspect",                 "--format", "{{index .RepoDigests 0}}", imageName.toString())).await()
             when (imageDigestOutput.exitCode) {
                 0 -> {
                     val digest = imageDigestOutput.stdout
