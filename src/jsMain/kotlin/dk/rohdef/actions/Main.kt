@@ -107,7 +107,7 @@ suspend fun main() {
 
             val exec = Exec
 
-            val o = exec.getExecOutput("ls", listOf("-l", "-h", "/tmp")).await()
+            val o = exec.getExecOutput("ls", listOf("-l", "-h", ".").toTypedArray()).await()
 
             info("Result: ${o.exitCode}")
             info(o.stdout)

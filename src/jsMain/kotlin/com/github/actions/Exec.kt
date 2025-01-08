@@ -7,7 +7,7 @@ import kotlin.js.Promise
 external object Exec {
     fun getExecOutput(
         name: String,
-        args: List<String>?,
+        args: Array<String>?,
     ): Promise<ExecOutput> // ExecOutput
 }
 
