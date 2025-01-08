@@ -105,9 +105,9 @@ suspend fun main() {
 
             info("Running the following docker build command:\n$command")
 
-            val exec = Exec
+            val parameters = listOf("build", "-t", "${imageName}")  + annotationParameters + buildArgsParameters + listOf(".")
 
-            val o = exec.getExecOutput("ls", listOf("-l", "-h", ".").toTypedArray()).await()
+            val o = Exec.getExecOutput("docker", parameters.toTypedArray()).await()
 
             info("Result: ${o.exitCode}")
             info(o.stdout)
