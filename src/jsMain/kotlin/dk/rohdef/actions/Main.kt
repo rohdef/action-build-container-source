@@ -88,18 +88,14 @@ suspend fun main() {
                 accumulator + listOf("--build-arg", "${entry.key}=${entry.value}")
             }
 
-            info("$annotationParameters")
-            info("$buildArgsParameters")
-
             val parameters = listOf("build", "-t", "${imageName}")  + annotationParameters + buildArgsParameters + listOf(inputs.dockerfilePath.value)
 
-            val o = Exec.getExecOutput("docker", parameters.toTypedArray()).await()
+            val dockerBuildOutput = Exec.getExecOutput("docker", parameters.toTypedArray()).await()
 
-            info("Result: ${o.exitCode}")
-            info(o.stdout)
-            error(o.stderr)
-
-//            setFailed("We just fail right now")
+            when (dockerBuildOutput.exitCode) {
+                0 -> info("Successfully built docker container")
+                else -> setFailed("Could not build docker container")
+            }
         },
     )
 }
