@@ -2,6 +2,7 @@ package dk.rohdef.actions
 
 import com.docker.actions_toolkit.lib.docker.Docker
 import com.docker.actions_toolkit.lib.github.GitHub
+import com.github.actions.Exec
 import dk.rohdef.actions.dk.rohdef.actions.github.Core
 import kotlinx.coroutines.await
 import node.process.Process
@@ -80,8 +81,18 @@ suspend fun main() {
             )
             val annotations = defaultAnnotation + inputs.annotations.value
 
+            val annotationParameters = annotations.entries.fold(emptyList<String>()) { accumulator, entry ->
+                accumulator + listOf("--annotation", "${entry.key}=${entry.value}")
+            }
+            val buildArgsParameters = inputs.buildArgs.value.entries.fold(emptyList<String>()) { accumulator, entry ->
+                accumulator + listOf("--build-arg", "${entry.key}=${entry.value}")
+            }
+
             val annotationBuildCommand = annotations.map { "    --annotation ${it.key}=${it.value} \\" }.joinToString("\n")
             val buildArgsCommand = inputs.buildArgs.value.map { "    --build-arg ${it.key}=${it.value} \\" }.joinToString("\n")
+
+            info("$annotationParameters")
+            info("$buildArgsParameters")
 
             val commandRaw = """
                 |docker build \
@@ -93,6 +104,14 @@ suspend fun main() {
             val command = commandRaw.lines().filter { it.isNotBlank() }.joinToString("\n")
 
             info("Running the following docker build command:\n$command")
+
+            val exec = Exec
+
+            val o = exec.getExecOutput("ls", listOf("-l", "-h", "/tmp")).await()
+
+            info("Result: ${o.exitCode}")
+            info(o.stdout)
+            error(o.stderr)
 
 //            setFailed("We just fail right now")
         },
