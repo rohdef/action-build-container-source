@@ -63,7 +63,7 @@ suspend fun main() {
             val actionEnvironment = ActionEnvironment(process)
 
             val date = Date().toISOString()
-            val defaultAnnotation = mapOf(
+            val defaultAnnotations = mapOf(
                 "dk.rohdef.actions.runnumber" to actionEnvironment.runId,
                 "dk.rohdef.actions.builder" to "rohdef build container action",
                 "org.opencontainers.image.created" to date,
@@ -79,7 +79,7 @@ suspend fun main() {
                 "org.opencontainers.image.title" to "not specified",
                 "org.opencontainers.image.description" to "not specified",
             )
-            val annotations = defaultAnnotation + inputs.annotations.value
+            val annotations = inputs.annotations.value + defaultAnnotations
 
             val annotationParameters = annotations.entries.fold(emptyList<String>()) { accumulator, entry ->
                 accumulator + listOf("--annotation", "${entry.key}=${entry.value}")
@@ -88,24 +88,10 @@ suspend fun main() {
                 accumulator + listOf("--build-arg", "${entry.key}=${entry.value}")
             }
 
-            val annotationBuildCommand = annotations.map { "    --annotation ${it.key}=${it.value} \\" }.joinToString("\n")
-            val buildArgsCommand = inputs.buildArgs.value.map { "    --build-arg ${it.key}=${it.value} \\" }.joinToString("\n")
-
             info("$annotationParameters")
             info("$buildArgsParameters")
 
-            val commandRaw = """
-                |docker build \
-                |$annotationBuildCommand
-                |$buildArgsCommand
-                |    --tag $imageName \
-                |    ${inputs.dockerfilePath.value}
-            """.trimMargin( )
-            val command = commandRaw.lines().filter { it.isNotBlank() }.joinToString("\n")
-
-            info("Running the following docker build command:\n$command")
-
-            val parameters = listOf("build", "-t", "${imageName}")  + annotationParameters + buildArgsParameters + listOf(".")
+            val parameters = listOf("build", "-t", "${imageName}")  + annotationParameters + buildArgsParameters + listOf(inputs.dockerfilePath.value)
 
             val o = Exec.getExecOutput("docker", parameters.toTypedArray()).await()
 
