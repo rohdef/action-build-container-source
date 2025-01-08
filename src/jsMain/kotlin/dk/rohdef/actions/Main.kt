@@ -96,6 +96,15 @@ suspend fun main() {
                 0 -> info("Successfully built docker container")
                 else -> setFailed("Could not build docker container")
             }
+
+            val imageDigestOutput = Exec.getExecOutput("docker", arrayOf("--format", "{{index .RepoDigests 0}}", imageName.toString())).await()
+            when (imageDigestOutput.exitCode) {
+                0 -> {
+                    val digest = imageDigestOutput.stdout
+                    info("Digest:                       [$digest]")
+                }
+                else -> setFailed("Could not get docker image digest")
+            }
         },
     )
 }
