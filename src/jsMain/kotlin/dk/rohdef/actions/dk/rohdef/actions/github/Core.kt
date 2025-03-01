@@ -18,7 +18,7 @@ class Core internal constructor() {
         post: (suspend Core.() -> Unit)? = null,
     ) {
         actionsToolkit.run(
-                { GlobalScope.promise { main() } },
+            { GlobalScope.promise { main() } },
             post?.let { GlobalScope.promise { it() } }
                 ?.let { { it } },
         )
