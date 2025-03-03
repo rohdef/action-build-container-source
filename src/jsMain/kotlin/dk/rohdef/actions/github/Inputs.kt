@@ -1,4 +1,4 @@
-package dk.rohdef.actions.dk.rohdef.actions.github
+package dk.rohdef.actions.github
 
 data class Inputs(
     val annotations: Annotations,
@@ -83,20 +83,14 @@ data class Inputs(
                 .filter { it.isNotBlank() }
         }
 
-        fun fromInput(getInput: (String) -> String): Inputs {
+        fun fromInput(getInput: (InputName) -> String): Inputs {
             return Inputs(
-                Annotations.fromValue(getInput(InputNames.annotations)),
-                BuildArgs.fromValue(getInput(InputNames.buildArgs)),
-                DockerfilePath.fromValue(getInput(InputNames.dockerFile)),
-                Labels.fromValue(getInput(InputNames.labels)),
+                Annotations.fromValue(getInput(InputName.ANNOTATIONS)),
+                BuildArgs.fromValue(getInput(InputName.BUILD_ARGS)),
+                DockerfilePath.fromValue(getInput(InputName.DOCKERFILE)),
+                Labels.fromValue(getInput(InputName.LABELS)),
             )
         }
     }
 }
 
-object InputNames {
-    val annotations = "annotations"
-    val dockerFile = "dockerfilePath"
-    val labels = "labels"
-    val buildArgs = "buildArgs"
-}

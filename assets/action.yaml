@@ -5,10 +5,10 @@ inputs:
   annotations:
     description: "List (new line for each entry) of annotation to set to the image"
     required: false
-  buildArgs:
+  build-args:
     description: "List of build-time variables"
     required: false
-  dockerfilePath:
+  dockerfile-path:
     description: "Path to the Dockerfile"
     default: "."
     required: true
@@ -20,10 +20,8 @@ inputs:
     required: false
 
 outputs:
-  imageId:
+  image-id:
     description: 'Image ID'
-  digest:
-    description: Image digest for usage in helm charts or other deployments where it is desired to lock the version to this build
 
 runs:
   using: node20

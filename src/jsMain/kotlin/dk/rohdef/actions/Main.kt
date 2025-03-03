@@ -3,7 +3,8 @@ package dk.rohdef.actions
 import com.docker.actions_toolkit.lib.docker.Docker
 import com.docker.actions_toolkit.lib.github.GitHub
 import com.github.actions.Exec
-import dk.rohdef.actions.dk.rohdef.actions.github.Core
+import dk.rohdef.actions.github.Core
+import dk.rohdef.actions.github.OutputName
 import kotlinx.coroutines.await
 import node.process.Process
 import node.process.process
@@ -58,11 +59,11 @@ suspend fun main() {
             actionInfo()
 
             val imageName = Uuid.random()
-            setOutput("imageId", "${imageName}")
+            setOutput(OutputName.IMAGE_ID, "${imageName}")
 
             val actionEnvironment = ActionEnvironment(process)
 
-            val date = Date().toISOString()
+            val date = Date ().toISOString()
             val defaultAnnotations = mapOf(
                 "dk.rohdef.actions.runnumber" to actionEnvironment.runId,
                 "dk.rohdef.actions.builder" to "rohdef build container action",
