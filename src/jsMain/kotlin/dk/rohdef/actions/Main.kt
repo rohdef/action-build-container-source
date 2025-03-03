@@ -58,7 +58,7 @@ suspend fun main() {
             actionInfo()
 
             val imageName = Uuid.random()
-            setOutput("imageid", "${imageName}")
+            setOutput("imageId", "${imageName}")
 
             val actionEnvironment = ActionEnvironment(process)
 

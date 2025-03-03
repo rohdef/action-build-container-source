@@ -96,7 +96,7 @@ data class Inputs(
 
 object InputNames {
     val annotations = "annotations"
-    val dockerFile = "dockerfile-path"
+    val dockerFile = "dockerfilePath"
     val labels = "labels"
-    val buildArgs = "build-args"
+    val buildArgs = "buildArgs"
 }
